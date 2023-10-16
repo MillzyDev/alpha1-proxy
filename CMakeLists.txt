@@ -4,6 +4,8 @@ project(alpha1_proxy)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED 20)
 
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
+
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -29,11 +31,10 @@ add_library(
         SHARED
         ${cpp_file_list}
         ${c_file_list}
+        ${CMAKE_CURRENT_SOURCE_DIR}/module/winhttp.def
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "winhttp")
-
-target_link_options(alpha1_proxy PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/module/winhttp.def")
 
 # add src dir as include dir
 target_include_directories(alpha1_proxy PRIVATE ${SOURCE_DIR})
