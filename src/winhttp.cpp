@@ -1,4 +1,4 @@
-#include "winhttp.h"
+#include "winhttp.hpp"
 
 #include <windows.h>
 #include <filesystem>
@@ -43,7 +43,7 @@ PROXY_FUNCTION(WinHttpFreeProxyResult)
 PROXY_FUNCTION(WinHttpFreeProxyResultEx)
 PROXY_FUNCTION(WinHttpFreeProxySettings)
 PROXY_FUNCTION(WinHttpGetDefaultProxyConfiguration)
-PROXY_FUNCTION(WinHttpGetIProxyConfigForCurrentUser)
+PROXY_FUNCTION(WinHttpGetIEProxyConfigForCurrentUser)
 PROXY_FUNCTION(WinHttpGetProxyForUrl)
 PROXY_FUNCTION(WinHttpGetProxyForUrlEx)
 PROXY_FUNCTION(WinHttpGetProxyForUrlEx2)
@@ -78,18 +78,82 @@ PROXY_FUNCTION(WinHttpTimeFromSystemTime)
 PROXY_FUNCTION(WinHttpTimeToSystemTime)
 PROXY_FUNCTION(WinHttpWebSocketClose)
 PROXY_FUNCTION(WinHttpWebSocketCompleteUpgrade)
-PROXY_FUNCTION(WinHttpWebsocketQueryCloseStatus)
-PROXY_FUNCTION(WinHttpWebSocket_Recieve)
+PROXY_FUNCTION(WinHttpWebSocketQueryCloseStatus)
+PROXY_FUNCTION(WinHttpWebSocketReceive)
 PROXY_FUNCTION(WinHttpWebSocketSend)
 PROXY_FUNCTION(WinHttpWebSocketShutdown)
 PROXY_FUNCTION(WinHttpWriteData)
 PROXY_FUNCTION(WinHttpWriteProxySettings)
 
 
-#define LOAD_ORIG_FUNC(name) o##name = GetProcAddress(winhttp, ###name)
+#define LOAD_ORIG_FUNC(name) o##name = GetProcAddress(winhttp, #name)
 
 void load_winhttp(HMODULE winhttp) {
-
+    LOAD_ORIG_FUNC(WinHttpAddRequestHeaders);
+    LOAD_ORIG_FUNC(WinHttpAddRequestHeadersEx);
+    LOAD_ORIG_FUNC(WinHttpAutoProxySvcMain);
+    LOAD_ORIG_FUNC(WinHttpCloseHandle);
+    LOAD_ORIG_FUNC(WinHttpConnect);
+    LOAD_ORIG_FUNC(WinHttpConnectionDeletePolicyEntries);
+    LOAD_ORIG_FUNC(WinHttpConnectionDeleteProxyInfo);
+    LOAD_ORIG_FUNC(WinHttpConnectionFreeNameList);
+    LOAD_ORIG_FUNC(WinHttpConnectionFreeProxyInfo);
+    LOAD_ORIG_FUNC(WinHttpConnectionFreeProxyList);
+    LOAD_ORIG_FUNC(WinHttpConnectionGetNameList);
+    LOAD_ORIG_FUNC(WinHttpConnectionGetProxyInfo);
+    LOAD_ORIG_FUNC(WinHttpConnectionGetProxyList);
+    LOAD_ORIG_FUNC(WinHttpConnectionSetPolicyEntries);
+    LOAD_ORIG_FUNC(WinHttpConnectionSetProxyInfo);
+    LOAD_ORIG_FUNC(WinHttpConnectionUpdateIfIndexTable);
+    LOAD_ORIG_FUNC(WinHttpCrackUrl);
+    LOAD_ORIG_FUNC(WinHttpCreateProxyResolver);
+    LOAD_ORIG_FUNC(WinHttpCreateUrl);
+    LOAD_ORIG_FUNC(WinHttpDetectAutoProxyConfigUrl);
+    LOAD_ORIG_FUNC(WinHttpFreeProxyResult);
+    LOAD_ORIG_FUNC(WinHttpFreeProxyResultEx);
+    LOAD_ORIG_FUNC(WinHttpFreeProxySettings);
+    LOAD_ORIG_FUNC(WinHttpGetDefaultProxyConfiguration);
+    LOAD_ORIG_FUNC(WinHttpGetIEProxyConfigForCurrentUser);
+    LOAD_ORIG_FUNC(WinHttpGetProxyForUrl);
+    LOAD_ORIG_FUNC(WinHttpGetProxyForUrlEx);
+    LOAD_ORIG_FUNC(WinHttpGetProxyForUrlEx2);
+    LOAD_ORIG_FUNC(WinHttpGetProxyForUrlHvsi);
+    LOAD_ORIG_FUNC(WinHttpGetProxyResult);
+    LOAD_ORIG_FUNC(WinHttpGetProxyResultEx);
+    LOAD_ORIG_FUNC(WinHttpGetProxySettingsVersion);
+    LOAD_ORIG_FUNC(WinHttpGetTunnelSocket);
+    LOAD_ORIG_FUNC(WinHttpOpen);
+    LOAD_ORIG_FUNC(WinHttpOpenRequest);
+    LOAD_ORIG_FUNC(WinHttpPacJsWorkerMain);
+    LOAD_ORIG_FUNC(WinHttpProbeConnectivity);
+    LOAD_ORIG_FUNC(WinHttpQueryAuthSchemes);
+    LOAD_ORIG_FUNC(WinHttpQueryDataAvailable);
+    LOAD_ORIG_FUNC(WinHttpQueryHeaders);
+    LOAD_ORIG_FUNC(WinHttpQueryOption);
+    LOAD_ORIG_FUNC(WinHttpReadData);
+    LOAD_ORIG_FUNC(WinHttpReadProxySettings);
+    LOAD_ORIG_FUNC(WinHttpReadProxySettingsHvsi);
+    LOAD_ORIG_FUNC(WinHttpRecieveResponse);
+    LOAD_ORIG_FUNC(WinHttpResetAutoProxy);
+    LOAD_ORIG_FUNC(WinHttpSaveProxyCredentials);
+    LOAD_ORIG_FUNC(WinHttpSendRequest);
+    LOAD_ORIG_FUNC(WinHttpSetCredentials);
+    LOAD_ORIG_FUNC(WinHttpSetDefaultProxyConfiguration);
+    LOAD_ORIG_FUNC(WinHttpSetOption);
+    LOAD_ORIG_FUNC(WinHttpSetProxySettingsPerUser);
+    LOAD_ORIG_FUNC(WinHttpSetSecureLegacyServersAppCompat);
+    LOAD_ORIG_FUNC(WinHttpSetStatusCallback);
+    LOAD_ORIG_FUNC(WinHttpSetTimeouts);
+    LOAD_ORIG_FUNC(WinHttpTimeFromSystemTime);
+    LOAD_ORIG_FUNC(WinHttpTimeToSystemTime);
+    LOAD_ORIG_FUNC(WinHttpWebSocketClose);
+    LOAD_ORIG_FUNC(WinHttpWebSocketCompleteUpgrade);
+    LOAD_ORIG_FUNC(WinHttpWebSocketQueryCloseStatus);
+    LOAD_ORIG_FUNC(WinHttpWebSocketReceive);
+    LOAD_ORIG_FUNC(WinHttpWebSocketSend);
+    LOAD_ORIG_FUNC(WinHttpWebSocketShutdown);
+    LOAD_ORIG_FUNC(WinHttpWriteData);
+    LOAD_ORIG_FUNC(WinHttpWriteProxySettings);
 }
 
 void init_proxy() {
