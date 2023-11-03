@@ -63,7 +63,7 @@ PROXY_FUNCTION(WinHttpQueryOption)
 PROXY_FUNCTION(WinHttpReadData)
 PROXY_FUNCTION(WinHttpReadProxySettings)
 PROXY_FUNCTION(WinHttpReadProxySettingsHvsi)
-PROXY_FUNCTION(WinHttpRecieveResponse)
+PROXY_FUNCTION(WinHttpReceiveResponse)
 PROXY_FUNCTION(WinHttpResetAutoProxy)
 PROXY_FUNCTION(WinHttpSaveProxyCredentials)
 PROXY_FUNCTION(WinHttpSendRequest)
@@ -133,7 +133,7 @@ void load_winhttp(HMODULE winhttp) {
     LOAD_ORIG_FUNC(WinHttpReadData);
     LOAD_ORIG_FUNC(WinHttpReadProxySettings);
     LOAD_ORIG_FUNC(WinHttpReadProxySettingsHvsi);
-    LOAD_ORIG_FUNC(WinHttpRecieveResponse);
+    LOAD_ORIG_FUNC(WinHttpReceiveResponse);
     LOAD_ORIG_FUNC(WinHttpResetAutoProxy);
     LOAD_ORIG_FUNC(WinHttpSaveProxyCredentials);
     LOAD_ORIG_FUNC(WinHttpSendRequest);
@@ -165,4 +165,6 @@ void init_proxy() {
 
     HMODULE winhttp_dll = LoadLibraryW(winhttp_path.c_str());
     load_winhttp(winhttp_dll);
+
+    MessageBoxA(nullptr, "HIIII", "SHIT WORKS", MB_OK);
 }
