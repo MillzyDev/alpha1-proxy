@@ -14,10 +14,13 @@
 #define PROXY_FUNCTION(name)                                                        \
     FARPROC o##name;                                                                \
     __declspec(dllexport) void WINAPI _##name() {                                   \
-        __pragma(STRINGIFY(EXPORT_PRAGMA));                                          \
+        __pragma(STRINGIFY(EXPORT_PRAGMA));                                         \
         o##name();                                                                  \
     }
 
+#ifndef _M_AMD64
+#error Architecture supported. Supported architectures: AMD64 (x86-64)
+#endif
 
 PROXY_FUNCTION(WinHttpAddRequestHeaders)
 PROXY_FUNCTION(WinHttpAddRequestHeadersEx)
