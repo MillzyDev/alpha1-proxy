@@ -197,10 +197,12 @@
   
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="modloader.cpp" />
     <ClCompile Include="winhttp.cpp" />
   </ItemGroup>
   
   <ItemGroup>
+    <ClInclude Include="modloader.hpp" />
     <ClInclude Include="winhttp.hpp" />
   </ItemGroup>
   
