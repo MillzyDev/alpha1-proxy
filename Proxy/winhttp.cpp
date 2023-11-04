@@ -14,7 +14,7 @@
 #define PROXY_FUNCTION(name)                                                        \
     FARPROC o##name;                                                                \
     __declspec(dllexport) void WINAPI _##name() {                                   \
-        _Pragma(STRINGIFY(EXPORT_PRAGMA));                                          \
+        __pragma(STRINGIFY(EXPORT_PRAGMA));                                          \
         o##name();                                                                  \
     }
 
@@ -88,7 +88,7 @@ PROXY_FUNCTION(WinHttpWriteProxySettings)
 
 #define LOAD_ORIG_FUNC(name) o##name = GetProcAddress(winhttp, #name)
 
-void load_winhttp(HMODULE winhttp) {
+void load_winhttp(const HMODULE winhttp) {
     LOAD_ORIG_FUNC(WinHttpAddRequestHeaders);
     LOAD_ORIG_FUNC(WinHttpAddRequestHeadersEx);
     LOAD_ORIG_FUNC(WinHttpAutoProxySvcMain);
@@ -157,14 +157,12 @@ void load_winhttp(HMODULE winhttp) {
 }
 
 void init_proxy() {
-    char systemPath[MAX_PATH];
-    GetSystemDirectoryA(systemPath, MAX_PATH);
+    char system_path[MAX_PATH];
+    GetSystemDirectoryA(system_path, MAX_PATH);
 
-    std::filesystem::path system32_path = systemPath;
-    std::filesystem::path winhttp_path = system32_path / "winhttp.dll";
+    const std::filesystem::path system32_path = system_path;
+    const std::filesystem::path winhttp_path = system32_path / "winhttp.dll";
 
-    HMODULE winhttp_dll = LoadLibraryW(winhttp_path.c_str());
+    const HMODULE winhttp_dll = LoadLibraryW(winhttp_path.c_str());
     load_winhttp(winhttp_dll);
-
-    MessageBoxA(nullptr, "HIIII", "SHIT WORKS", MB_OK);
 }
