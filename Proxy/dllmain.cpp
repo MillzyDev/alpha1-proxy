@@ -8,4 +8,6 @@ BOOL APIENTRY DllMain(HMODULE hmodule, DWORD ul_reason_for_call, LPVOID lpReserv
 
     DisableThreadLibraryCalls(hmodule); // minor optimisation
     init_proxy();
+
+    return TRUE;
 }
