@@ -1,29 +1,37 @@
 #include <windows.h>
 #include <filesystem>
-#include <sstream>
 
 #include "winhttp.hpp"
 #include "modloader.hpp"
 
-bool is_unity() {
-    char current_module[MAX_PATH];
-    (void)GetModuleFileNameA(nullptr, current_module, MAX_PATH);
-    const std::filesystem::path module_path = current_module;
+/*
+ * This proxy is based on the version.dll proxy written by BitCrackers,
+ * licensed under GNU General Public License (Version 3).
+ * https://github.com/BitCrackers/version-proxy
+ */
 
-    const wchar_t *file_name = module_path.stem().c_str();
-    const std::filesystem::path base_dir = module_path.parent_path();
+bool is_unity(const std::filesystem::path &file_path) {
+    //const wchar_t *file_name = file_path.stem().c_str();
 
-    std::wstringstream ss;
-    ss << file_name << L"_Data";
-    const std::filesystem::path data_dir = base_dir / ss.str(); // get the path of the game's data directory
+    const std::filesystem::path base_dir = file_path.parent_path();
+
+    std::wstring data_name = file_path.stem().c_str();
+    data_name += L"_Data";
+    const std::filesystem::path data_path = base_dir / data_name;
+
+    //MessageBoxW(nullptr, file_path.c_str(), L"Proxy", MB_OK);
+    //MessageBoxW(nullptr, file_path.stem().c_str(), L"Proxy", MB_OK);
+    
+    if (!exists(data_path))
+        return false;
 
     // ReSharper disable once CppTooWideScopeInitStatement
-    const std::filesystem::path global_game_managers = data_dir / "globalgamemanagers";
+    const std::filesystem::path global_game_managers = data_path / "globalgamemanagers";
 
-    if (exists(data_dir) && exists(global_game_managers))
-        return true; // if the data dir and globalgamemanagers exist, then its probably a unity game.
+    if (!exists(global_game_managers))
+        return false;
     
-    return false;
+    return true;
 }
 
 BOOL APIENTRY DllMain(HMODULE hmodule, DWORD ul_reason_for_call, LPVOID lpReserved) {
@@ -33,7 +41,10 @@ BOOL APIENTRY DllMain(HMODULE hmodule, DWORD ul_reason_for_call, LPVOID lpReserv
     DisableThreadLibraryCalls(hmodule); // minor optimisation
     init_proxy();
 
-    if (is_unity())
+    wchar_t main_module[MAX_PATH];
+    (void)GetModuleFileNameW(nullptr, main_module, MAX_PATH);
+
+    if (is_unity(main_module))
         init_modloader();
 
     return TRUE;
