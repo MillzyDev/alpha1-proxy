@@ -21,7 +21,7 @@
     }
 
 #ifndef _M_AMD64
-#error Architecture supported. Supported architectures: AMD64 (x86-64)
+#error Architecture not supported. Supported architectures: AMD64 (x86-64)
 #endif
 
 PROXY_FUNCTION(WinHttpAddRequestHeaders)
