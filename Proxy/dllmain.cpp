@@ -42,9 +42,9 @@ BOOL APIENTRY DllMain(HMODULE hmodule, DWORD ul_reason_for_call, LPVOID lpReserv
     init_proxy();
 
     wchar_t main_module[MAX_PATH];
-    (void)GetModuleFileNameW(nullptr, main_module, MAX_PATH);
+    (void)GetModuleFileNameW(nullptr, main_module, MAX_PATH); // get exe path
 
-    if (is_unity(main_module))
+    if (is_unity(main_module)) // unity crash handler also loads this, we dont want that
         init_modloader();
 
     return TRUE;

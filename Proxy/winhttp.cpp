@@ -11,6 +11,8 @@
 
 #define EXPORT_PRAGMA comment(linker, "/EXPORT:" __FUNCTION__ "=" __FUNCDNAME__)
 
+// we do not need to pass arguments or return a value since the contents of registers do not change
+// may not work with all calling conventions
 #define PROXY_FUNCTION(name)                                                        \
     FARPROC o##name;                                                                \
     __declspec(dllexport) void WINAPI _##name() {                                   \
@@ -165,7 +167,7 @@ void init_proxy() {
 
     const std::filesystem::path system32_path = system_path;
     const std::filesystem::path winhttp_path = system32_path / "winhttp.dll";
-
+    // load original dll
     const HMODULE winhttp_dll = LoadLibraryW(winhttp_path.c_str());
-    load_winhttp(winhttp_dll);
+    load_winhttp(winhttp_dll); // provide a handle so our methods call the original methods
 }

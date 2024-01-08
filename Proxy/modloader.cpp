@@ -26,11 +26,11 @@ void init_modloader() {
     const std::filesystem::path module_path = current_filename;
     const std::filesystem::path target_path = module_path.parent_path() / "alpha1";
 
-    load_stl(target_path / "core");
+    load_stl(target_path / "core"); // load stl dependencies
     
     const std::filesystem::path alpha1_path = target_path / "alpha1.dll";
 
-    const HMODULE alpha1_handle = LoadLibraryW(alpha1_path.c_str());
+    const HMODULE alpha1_handle = LoadLibraryW(alpha1_path.c_str()); // load modloader
     const auto alpha1_init_proc = reinterpret_cast<modloader_init>(GetProcAddress(alpha1_handle, "modloader_init"));
-    alpha1_init_proc();
+    alpha1_init_proc(); // initialise
 }
