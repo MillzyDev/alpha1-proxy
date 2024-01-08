@@ -26,7 +26,7 @@ void init_modloader() {
     const std::filesystem::path module_path = current_filename;
     const std::filesystem::path target_path = module_path.parent_path() / "alpha1";
 
-    load_stl(target_path);
+    load_stl(target_path / "core");
     
     const std::filesystem::path alpha1_path = target_path / "alpha1.dll";
 
