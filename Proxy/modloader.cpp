@@ -6,10 +6,11 @@
 #define LIB_WINPTHREAD_NAME "libwinpthread-1.dll"
 #define LIB_STD_NAME "libstdc++-6.dll"
 #define LIB_GCC_NAME "libgcc_s_seh-1.dll"
+#define LIB_DOBBY_NAME "dobby.dll"
 
 typedef void (*modloader_init)();
 
-void load_stl(const std::filesystem::path &dir) {
+void load_core_libs(const std::filesystem::path &dir) {
     const std::filesystem::path winpthread_path = dir / LIB_WINPTHREAD_NAME;
     (void)LoadLibraryW(winpthread_path.c_str());
     
@@ -18,6 +19,9 @@ void load_stl(const std::filesystem::path &dir) {
     
     const std::filesystem::path stdlib_path = dir / LIB_STD_NAME;
     (void)LoadLibraryW(stdlib_path.c_str());
+
+    const std::filesystem::path dobby_path = dir / LIB_DOBBY_NAME;
+    (void)LoadLibraryW(dobby_path.c_str());
 }
 
 void init_modloader() {
@@ -26,7 +30,7 @@ void init_modloader() {
     const std::filesystem::path module_path = current_filename;
     const std::filesystem::path target_path = module_path.parent_path() / "alpha1";
 
-    load_stl(target_path / "core"); // load stl dependencies
+    load_core_libs(target_path / "core"); // load stl dependencies
     
     const std::filesystem::path alpha1_path = target_path / "alpha1.dll";
 
