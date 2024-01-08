@@ -210,4 +210,10 @@
   
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  
+  <ItemDefinitionGroup>
+    <PostBuildEvent>
+      <Command>robocopy "$(SolutionDir)core" "$(OutputPath)core" /mir</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
 </Project>
