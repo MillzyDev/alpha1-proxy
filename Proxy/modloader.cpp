@@ -30,7 +30,7 @@ void init_modloader() {
     const std::filesystem::path module_path = current_filename;
     const std::filesystem::path target_path = module_path.parent_path() / "alpha1";
 
-    load_core_libs(target_path / "core"); // load stl dependencies
+    load_core_libs(target_path / "core"); // load core dependencies
     
     const std::filesystem::path alpha1_path = target_path / "alpha1.dll";
 
